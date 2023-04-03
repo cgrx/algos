@@ -1,3 +1,5 @@
+from typing import List
+
 # Algorithms and Computation
 
 ## Course Objectives
@@ -57,43 +59,52 @@
 2. Interface : A collection of operations
 	1. Sequence : Extrinsic order to items
 	2. Set : Intrinsic order to items
-3. We can maintain the interface of a data structure while updating the operations to improve its performance. 
-4. Example : Static array - Fixed width slots, fixed length, and static sequence interface
+3. Data Structure vs Interface :
+	1. Interface is a specification (i.e.) what operations are supported. {Problem}
+	2. Data structure is a representations (i.e.) how the operations are supported. {Solution}
+4. We can maintain the interface while updating the operations to improve its performance. 
+5. Example : Static array - Fixed width slots, fixed length, and static sequence interface
+
 ```python
+from typing import List, Any
+
 class StaticArray:
-	def __init__(self, n):
+	""" Static array implementation
+	Note: Technically, a static array is a fixed-length array of fixed-width slots. Therefore, usage should be restricted to those cases.
+	"""
+	def __init__(self, size: int) -> None:
 		"""Allocate static array of size n initialized to None in linear time
-		:param n: size of the array
+		:param size: size of the array
 		:return: None
 		"""
-		self._size = n
-		self.data = [None] * n
+		self._size: int = size
+		self._data: List[Any] = [None] * size
 
-	def __len__(self):
+	def __len__(self) -> int:
 		"""Return length of the array in constant time
 		:return: length of the array
 		"""
 		return self._size
-	
-	def get_at(self, i):
-		"""Return word stored at an array index i in constant time
-		:param i: index of the array
-		:return: word stored at index i
+
+	def __getitem__(self, item: int) -> Any:
+		"""Return word stored at an array index item in constant time
+		:param item: index of the array
+		:return: word stored at index item
 		"""
-		if not (0 <= i < self._size):
+		if not (0 <= item < self._size):
 			raise IndexError("Index out of bounds")
-		return self.data[i]
-	
-	def set_at(self, i, x):
-		"""Write a word x to an array index i in constant time
-		:param i: index of the array
-		:param x: word to be written
+		return self._data[item]
+
+	def __setitem__(self, key, value):
+		"""Write a word value to an array index key in constant time
+		:param key: index of the array
+		:param value: word to be written
 		:return: None
 		"""
-		if not (0 <= i < self._size):
+		if not (0 <= key < self._size):
 			raise IndexError("Index out of bounds")
-		self.data[i] = x
-	
+		self._data[key] = value
+
 ```
 
 ## Resources
