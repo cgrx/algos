@@ -51,11 +51,79 @@ class StaticSequence:
 		raise NotImplementedError
 
 ```
-
 4. Dynamic sequence interface : 
 ```python
+from typing import Iterable, Iterator, Any
+
+class DynamicSequence:
+	""" An interface for dynamic sequence """
+	
+	def __init__(self, iterable : Iterable) -> None:
+		"""
+		:param iterable: The iterable to initialize the sequence with in O(n) time 
+		:return: None
+		"""
+		raise NotImplementedError
+	
+	def __len__(self) -> int:
+		"""
+		:return: The length of the sequence in O(1) time 
+		"""
+		raise NotImplementedError
+
+	def __iter__(self) -> Iterator:
+		""" 
+		:return: The iterator object in O(1) time
+		"""
+		raise NotImplementedError
+	
+	def __next__(self) -> Any:
+		"""  
+		:return: The next item in the sequence in O(1) time
+		"""
+		raise NotImplementedError
+	
+	def insert_at(self, key: int, value: Any) -> None:
+		"""
+		:param key: The index at which the value is to be inserted in O(n) time
+		:param value: The value to be inserted 
+		"""
+		raise NotImplementedError
+	
+	def delete_at(self, key: int) -> None:
+		"""
+		:param key: The instance to be deleted in O(n) time
+		"""
+		raise NotImplementedError
+
+	def insert_first(self, value: Any) -> None:
+		"""
+		:param value: The value to be inserted at the beginning of the sequence in O(n) time
+		"""
+		raise NotImplementedError
+
+	def delete_first(self, value: Any) -> None:
+		"""
+		:param value: The value to be deleted from the beginning of the sequence in O(n) time
+		"""
+		raise NotImplementedError
+
+	def insert_last(self, value: Any) -> None:
+		""" 
+		:param value: The value to be inserted at the end of the sequence in O(1) time. For resizing the array needs to relocated which is O(n) time.
+		"""
+		raise NotImplementedError
+
+	def delete_last(self, value: Any) -> None:
+		"""
+		:param value: The value to be deleted from the end of the sequence in O(1) time. For resizing the array needs to relocated which is O(n) time. 
+		"""
+		raise NotImplementedError
+
 ```
-5. 
+5. Special case interfaces :
+   1. Stack : `insert_last` and `delete_last`. Last in first out.
+   2. Queue : `insert_last` and `delete_first`. First in first out.
 
 ### Static Array
 1. 
