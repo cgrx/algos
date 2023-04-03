@@ -12,6 +12,7 @@
 	1. Given the number of combinations, we don't often enumerate every possible input-output combination. 
 	2. A predicate (a property) is often used to verify the correctness of the output.
 2. An algorithm is a (deterministic) procedure to solve a computational problem of arbitrary sized input (i.e.) maps every input in the space to the correct output.
+3. A computer program that implements an algorithm will have a finite size, but works for an arbitrarily sized input.
 
 ### Correctness
 1. For an arbitrarily large inputs, an algorithm must be recursive in some way. 
@@ -30,6 +31,11 @@
 3. Idea : Represent different algorithms in terms of asymptotic notation to identify the bounds.
 	1. Ignore constant factors, and lower order terms
 	2. Derive the upper bound ($O$), lower bound ($\Omega$), and tight bound ($\Theta$)
+4. Asymptotic notations 
+	1. Upper bound ($O$) : Non-negative function $g(n) \in O(f(n))~\iff~\exists~c \in \mathbb{R}^{+},~n_{0} \in \mathbb{Z}^{+}~:~g(n) \leq c \cdot f(n),~ \forall n \geq n_{0}$ 
+	2. Lower bound ($\Omega$) : Non-negative function $g(n) \in \Omega(f(n))~\iff~\exists~c \in \mathbb{R}^{+},~n_{0} \in \mathbb{Z}^{+}~:~c \cdot f(n) \leq g(n) ,~ \forall n \geq n_{0}$
+	3. Tight bound ($\Theta$) : Non-negative function $g(n) \in \Theta(f(n))~\iff~g(n) \in O(f(n)) \cap \Omega(f(n))$ 
+5. $f(n)$ of interest : $1,~log(n),~n,~n^{c} : c \in \mathbb{R}^{+},~...$ 
 
 ### Word-RAM Model
 1. A model of computations is specification for what operations on the machine can be performed in $O(1)$ time.
@@ -44,18 +50,51 @@
 		5. Write a word ($w$ bits) to an address
 3. Memory size : 
 		1. Word size ($w$) $\geq$ No. of bits used to represent largest memory ($n$)
-		2. Max memory is approx. $2^{w}$ bits
+		2. Max memory is approx. $2^{w}$ bits representing an integer sequence $\{0,...,2^{w}-1\}$ of addresses
 
 ## Data Structure
 1. Data structure : A way to store non-constant data, and support a set of operations on the data.
 2. Interface : A collection of operations
 	1. Sequence : Extrinsic order to items
 	2. Set : Intrinsic order to items
-3. We can maintain the interface of a data structure while updating the operations to improve its performance.
+3. We can maintain the interface of a data structure while updating the operations to improve its performance. 
 4. Example : Static array - Fixed width slots, fixed length, and static sequence interface
-	1. $StaticArray(n)$ : Allocate static array of size $n$ initialized to 0 in $\Theta(n)$ time
-	2. $StaticArray.get\_{at}(i)$ : Return word stored at an array index $i$ in $\Theta(1)$ time 
-	3. $StaticArray.set\_{at}(i, x)$ : Write a word $x$ to an array index $i$ in $\Theta(1)$ time
+```python
+class StaticArray:
+	def __init__(self, n):
+		"""Allocate static array of size n initialized to None in linear time
+		:param n: size of the array
+		:return: None
+		"""
+		self._size = n
+		self.data = [None] * n
+
+	def __len__(self):
+		"""Return length of the array in constant time
+		:return: length of the array
+		"""
+		return self._size
+	
+	def get_at(self, i):
+		"""Return word stored at an array index i in constant time
+		:param i: index of the array
+		:return: word stored at index i
+		"""
+		if not (0 <= i < self._size):
+			raise IndexError("Index out of bounds")
+		return self.data[i]
+	
+	def set_at(self, i, x):
+		"""Write a word x to an array index i in constant time
+		:param i: index of the array
+		:param x: word to be written
+		:return: None
+		"""
+		if not (0 <= i < self._size):
+			raise IndexError("Index out of bounds")
+		self.data[i] = x
+	
+```
 
 ## Resources
 1. [Lecture Page](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/resources/lecture-1-algorithms-and-computation/)
