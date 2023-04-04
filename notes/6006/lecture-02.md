@@ -174,13 +174,16 @@ class DynamicSequence:
 	3. Can we have a data-structure that combines the best of both the worlds ?
 2. Idea : Allocate extra space heuristically to reduce number of re-allocations. 
 	1. Fill ratio : Ratio of items to space ($r = \frac{|Items|}{|Sequence|} \in [0,1]$)
-	3. When the fill ratio reaches a threshold, allocate $\Theta(n)$ extra space to reduce the fill ratio. We will have to wait for $\Theta(n)$ items to be filled before threshold is reached again. 
+	3. When the fill ratio reaches a threshold, allocate $\Theta(n)$ extra space to reduce the fill ratio (i.e.) $r < r_i$. We will have to wait for $\Theta(n)$ items to be filled before threshold is reached again. 
 3. Cost amortization :
 	1. Let us assume that our threshold fill ratio is 1, and we reduce it 0.5 when required (i.e) double the size when the array is full. 
 	2. We will resize at $1, 2, 4, 8, ...$
 	3. A single operation of reallocation will cost $\Theta(n)$ time. $$\text{cost} = \Theta(\sum_{i=0}^{log_{2}(n)} 2^i) = \Theta(2^{log_{2}(n))} = \Theta(n)$$
 	4. As we are adding $\Theta(n)$ extra space, a sequence of $\Theta(n)$ operations will also take $\Theta(n)$ time (i.e) each operation take $\Theta(1)$ time "on average"
-4. Deletion :
+4. Deletion at last :
+	1. When we delete an element from back, it is $\Theta(1)$. However, in such cases the fill ratio will decrease, and space is wasted.
+	2. To avoid wastage of space, we can resize when the fill ratio is below a threshold (i.e.) $r < r_d$. The resize done to $r_i: r_d < r_i$
+	4. We need $\Theta(n)$ inserts before next resize. Therefore, the cost is amortized.
 5. Handling `insert_first(value), delete_first()` :
 6. Dynamic array data structure :
 ```python
