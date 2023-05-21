@@ -11,92 +11,92 @@ from typing import Iterable, Iterator, Any
 
 class StaticSequence:
 	""" An interface for static sequence """
-	
+
 	def __init__(self, iterable : Iterable) -> None:
 		"""
-		:param iterable: The iterable to initialize the sequence with in O(n) time 
+		:param iterable: The iterable to initialize the sequence with in O(n) time
 		:return: None
 		"""
 		raise NotImplementedError
-	
+
 	def __len__(self) -> int:
 		"""
-		:return: The length of the sequence in O(1) time 
+		:return: The length of the sequence in O(1) time
 		"""
 		raise NotImplementedError
 
 	def __iter__(self) -> Iterator:
-		""" 
+		"""
 		:return: The iterator object in O(1) time
 		"""
 		raise NotImplementedError
-	
+
 	def __next__(self) -> Any:
-		"""  
+		"""
 		:return: The next item in the sequence in O(1) time
 		"""
 		raise NotImplementedError
-	
+
 	def __getitem__(self, index: int) -> Any:
-		""" 
-		:return: The value at the given index in O(1) time 
+		"""
+		:return: The value at the given index in O(1) time
 		"""
 		raise NotImplementedError
 
 	def __setitem__(self, index: int, value: Any) -> None:
 		"""
 		:param index: The index at which the value is to be set in O(1) time
-		:param value: The value to be set 
+		:param value: The value to be set
 		"""
 		raise NotImplementedError
 
 ```
-4. Dynamic sequence interface : 
+4. Dynamic sequence interface :
 ```python
 from typing import Iterable, Iterator, Any
 
 class DynamicSequence:
 	""" An interface for dynamic sequence """
-	
+
 	def __init__(self, iterable : Iterable) -> None:
 		"""
-		:param iterable: The iterable to initialize the sequence with in O(n) time 
+		:param iterable: The iterable to initialize the sequence with in O(n) time
 		:return: None
 		"""
 		raise NotImplementedError
-	
+
 	def __len__(self) -> int:
 		"""
-		:return: The length of the sequence in O(1) time 
+		:return: The length of the sequence in O(1) time
 		"""
 		raise NotImplementedError
 
 	def __iter__(self) -> Iterator:
-		""" 
+		"""
 		:return: The iterator object in O(1) time
 		"""
 		raise NotImplementedError
-	
+
 	def __next__(self) -> Any:
-		"""  
+		"""
 		:return: The next item in the sequence in O(1) time
 		"""
 		raise NotImplementedError
-	
+
 	def __setitem__(self, key: int, value: Any) -> None:
 		"""
 		:param key: The index at which the value is to be inserted in O(1) time. For resizing the array needs to relocated which is O(n) time.
-		:param value: The value to be inserted 
+		:param value: The value to be inserted
 		"""
 		raise NotImplementedError
-		
+
 	def __getitem__(self, key: int) -> Any:
-		""" 
+		"""
 		:param key: The index of the value to be returned in O(1) time.
 		:return: The value at the given index.
 		"""
 		raise NotImplementedError
-		
+
 	def __delitem__(self, key: int) -> None:
 		"""
 		:param key: The instance to be deleted in O(n) time
@@ -116,14 +116,14 @@ class DynamicSequence:
 		raise NotImplementedError
 
 	def insert_last(self, value: Any) -> None:
-		""" 
+		"""
 		:param value: The value to be inserted at the end of the sequence in O(1) time. For resizing the array needs to relocated which is O(n) time.
 		"""
 		raise NotImplementedError
 
 	def delete_last(self, value: Any) -> None:
 		"""
-		:param value: The value to be deleted from the end of the sequence in O(1) time. For resizing the array needs to relocated which is O(n) time. 
+		:param value: The value to be deleted from the end of the sequence in O(1) time. For resizing the array needs to relocated which is O(n) time.
 		"""
 		raise NotImplementedError
 
@@ -138,11 +138,11 @@ class DynamicSequence:
 3. Asymptotic complexity
 	1. Static operations
 		1. `__getitem__(index), __setitem__(index, value)` : $O(1)$
-	2. Dynamic operations 
+	2. Dynamic operations
 		1. `insert_first(value), delete_first()` : $O(n)$
 		2. `insert_last(value), delete_last()` : $O(n)$
 		3. `__setitem__(index, value), __delitem__(index)` : $O(n)$
-4. The invariant is that array is full (for consistency). 
+4. The invariant is that array is full (for consistency).
 
 ### Linked List
 1. Motivation : Can we make the insert, and delete at front really efficient ?
@@ -159,14 +159,14 @@ class DynamicSequence:
 
 ### Dynamic Array
 1. Motivation :
-	1. Linked list are really efficient for `insert_first(value), delete_first(), insert_last(value), delete_last()`. 
+	1. Linked list are really efficient for `insert_first(value), delete_first(), insert_last(value), delete_last()`.
 	2. Arrays are really efficient for  `__getitem__(index), __setitem__(index, value)`
 	3. Can we have a data-structure that combines the best of both the worlds ?
-2. Idea : Allocate extra space heuristically to reduce number of re-allocations. 
+2. Idea : Allocate extra space heuristically to reduce number of re-allocations.
 	1. Fill ratio : Ratio of items to space ($r = \frac{|Items|}{|Sequence|} \in [0,1]$)
-	3. When the fill ratio reaches a threshold, allocate $\Theta(n)$ extra space to reduce the fill ratio (i.e.) $r < r_i$. We will have to wait for $\Theta(n)$ items to be filled before threshold is reached again. 
+	3. When the fill ratio reaches a threshold, allocate $\Theta(n)$ extra space to reduce the fill ratio (i.e.) $r < r_i$. We will have to wait for $\Theta(n)$ items to be filled before threshold is reached again.
 3. Cost amortization :
-	1. Let us assume that our threshold fill ratio is 1, and we reduce it 0.5 when required (i.e) double the size when the array is full. 
+	1. Let us assume that our threshold fill ratio is 1, and we reduce it 0.5 when required (i.e) double the size when the array is full.
 	2. We will resize at $1, 2, 4, 8, ...$
 	3. A single operation of reallocation will cost $\Theta(n)$ time. $$\text{cost} = \Theta(\sum_{i=0}^{log_{2}(n)} 2^i) = \Theta(2^{log_{2}(n))} = \Theta(n)$$
 	4. As we are adding $\Theta(n)$ extra space, a sequence of $\Theta(n)$ operations will also take $\Theta(n)$ time (i.e) each operation take $\Theta(1)$ time "on average"
@@ -180,13 +180,13 @@ class DynamicSequence:
 6. Asymptotic complexity
 	1. Static operations
 		1. `__getitem__(index), __setitem__(index, value)` : $O(1)$
-	2. Dynamic operations 
+	2. Dynamic operations
 		1. `insert_first(value), delete_first()` : $O(1_{(a)})$
 		2. `insert_last(value), delete_last()` : $O(1_{(a)})$
 		3. `__setitem__(index, value), __delitem__(index)` : $O(n)$
 
-## Set Interface 
-1. Set has an intrinsic order using unique keys. 
+## Set Interface
+1. Set has an intrinsic order using unique keys.
 2. Set interface
 ```python
 from typing import Any, Iterator, Iterable
@@ -236,7 +236,7 @@ class SetInterface:
 		:return: An iterator over the set in the key order
 		"""
 		raise NotImplementedError
-	
+
 	def __next__(self) -> Any:
 		"""
 		:return: The next element in the set
@@ -249,26 +249,26 @@ class SetInterface:
 		:return: True if the key is present in the set, False otherwise
 		"""
 		raise NotImplementedError
-	
+
 	def find_min(self) -> Any:
 		"""
 		:return: The item corresponding to the minimum key in the set
 		"""
 		raise NotImplementedError
-	
+
 	def find_max(self) -> Any:
 		"""
 		:return: The item corresponding to the maximum key in the set
 		"""
 		raise NotImplementedError
-	
+
 	def find_next(self, key: Any) -> Any:
 		"""
 		:param key: The key to be searched in the set
 		:return: The item with minimal key larger than <key>
 		"""
 		raise NotImplementedError
-	
+
 	def find_prev(self, key: Any) -> Any:
 		"""
 		:param key: The key to be searched in the set
