@@ -134,9 +134,7 @@ class DynamicSequence:
 
 ### Array
 1. An array is great for static operations but not so good for dynamic operations. This is due to cost of reallocating, and shifting items when array grows in size.
-2. Array data structure 
-```python
-```
+2. Array data structure (i.e) specialized implementation of static sequence interface
 3. Asymptotic complexity
 	1. Static operations
 		1. `__getitem__(index), __setitem__(index, value)` : $O(1)$
@@ -146,23 +144,15 @@ class DynamicSequence:
 		3. `__setitem__(index, value), __delitem__(index)` : $O(n)$
 4. The invariant is that array is full (for consistency). 
 
-
 ### Linked List
 1. Motivation : Can we make the insert, and delete at front really efficient ?
-2. Idea : Use a node (data, and pointer to next node) to build a list. We can manipulate the nodes by relinking pointers. 
-3. Singly inked list data structure
-```python
-```
-4.  Asymptotic complexity of singly linked list
+2. Idea : Use a node (data, and pointer to next node) to build a list. We can manipulate the nodes by re-linking pointers. This data-structure is referred as singly inked list.
+3.  Asymptotic complexity of singly linked list
 	1. `insert_first(value), delete_first()` : $O(1)$
 	2. `insert_last(value), delete_last()` : $O(n)$
 	3. `__getitem__(index), __setitem__(index, value), __delitem__(index)` : $O(n)$
-5. Question : Can we use the pointer data structures to make insert, and delete at last efficient as well ?
-6. Doubly linked list data structure
-```python
-
-```   
-7. Asymptotic complexity of singly linked list
+4. Can we use the pointer data structures to make insert, and delete at last efficient as well ? Yes, this implementation is referred as doubly linked list data structure.
+5. Asymptotic complexity of doubly linked list
 	1. `insert_first(value), delete_first()` : $O(1)$
 	2. `insert_last(value), delete_last()` : $O(1)$
 	3. `__getitem__(index), __setitem__(index, value), __delitem__(index)` : $O(n)$
@@ -185,10 +175,9 @@ class DynamicSequence:
 	2. To avoid wastage of space, we can resize when the fill ratio is below a threshold (i.e.) $r < r_d$. The resize done to $r_i: r_d < r_i$
 	4. We need $\Theta(n)$ inserts before next resize. Therefore, the cost is amortized.
 5. Handling `insert_first(value), delete_first()` :
-6. Dynamic array data structure :
-```python
-```   
-7. Asymptotic complexity
+	1. Idea : Store the items in the middle of an array instead of front. This leaves `n` slots in the beginning and the end of an array.
+	2. The cost of rebuilding is $\Omega(n)$ gets amortized as it is in between linear time operations.
+6. Asymptotic complexity
 	1. Static operations
 		1. `__getitem__(index), __setitem__(index, value)` : $O(1)$
 	2. Dynamic operations 
